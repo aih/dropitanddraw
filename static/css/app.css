@@ -1,0 +1,40 @@
+.search-artists{
+    padding-left: 15px;
+    padding-bottom: 15px;
+    border-radius: 0;
+}
+
+.search-artists input {
+    height: 60px;
+    padding-left: 36px;
+    border-color: #EEE;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.search-bar  {
+    color: #222;
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 21px;
+}
+.search-artists .search-bar {
+    z-index: 100;
+    position: relative;
+    margin-top: 40px;
+    padding-bottom: 10px;
+    margin-left: 10%;
+    width: 75%;
+}
+.search-bar .search-button{
+    width: 25%;
+}
+
+.search-button{
+    font-size:20px;
+}
+
+.navbar-right{
+    margin-top: -120px;
+    margin-right:30px;
+}
