@@ -1,0 +1,8 @@
+#Bower components
+static/bower_components
+
+#Grunt processing files
+.tmp
+node_modules
+
+*/.picasa.ini
