@@ -37,8 +37,8 @@
                             <input type="text"  placeholder="Word {{item}}" ng-model="list.wordlist[item]" autocomplete="off" style="width:100px;" />
                         </th>
                     </tr>
-                    <tr ng-repeat="scramble in range(1, list.scrambleslength) ">
-                        <td style="padding: 5px">{{scramble}}.</td>
+                    <tr ng-repeat="scramble in range(list.scrambleslength) ">
+                        <td style="padding: 5px">{{scramble + 1}}.</td>
                         <td style="padding: 5px;" ng-repeat="item in range(1,10)">
                             {{list.scrambles[item][scramble] || ''}}
                         </td>
