@@ -23,7 +23,7 @@
     <body ng-app="myApp" ng-controller="mainController" ng-cloak>
         <div class="navbar">
             <h3>Word Scramble</h3>
-            <h3>Enter your words below and click 'scramble'.</h3>
+            <h3>Enter your words below and click 'scramble'. (Max length = 10)</h3>
         </div>
         <button ng-click="makeScramble()" class="btn btn-primary">
             Scramble 
@@ -33,13 +33,13 @@
                 <tbody>
                     <tr>
                         <th style="padding: 5px"></th>
-                        <th style="padding: 5px;" ng-repeat="item in range(1,10)">
-                            <input type="text"  placeholder="Word {{item}}" ng-model="list.wordlist[item]" autocomplete="off" style="width:100px;" />
+                        <th style="padding: 5px;" ng-repeat="item in range(1,8)">
+                            <input type="text"  placeholder="Word {{item}}" ng-model="list.wordlist[item]" autocomplete="off" style="width:100px;" maxlength="10" />
                         </th>
                     </tr>
                     <tr ng-repeat="scramble in range(list.scrambleslength) ">
                         <td style="padding: 5px">{{scramble + 1}}.</td>
-                        <td style="padding: 5px;" ng-repeat="item in range(1,10)">
+                        <td style="padding: 5px;" ng-repeat="item in range(1,8)">
                             {{list.scrambles[item][scramble] || ''}}
                         </td>
                     </tr>
