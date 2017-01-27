@@ -75,6 +75,7 @@
                      }
 
             // http://codereview.stackexchange.com/a/97426
+            var MAXLENGTH = $scope.list.scrambleslength;
             var getPermutations = function(str){
                 //Enclosed data to be used by the internal recursive function permutate():
                 var permutations = [],  //generated permutations stored here
@@ -93,6 +94,7 @@
                 return permutations;
                 //===========UNDER THE HOOD===========
                 function permutate(chars){ //recursive: generates the permutations
+                    if(permutations.length >= MAXLENGTH){ return permutations;}
                     if(chars.length === 0)permutations.push(nextWord.join(''));            
                     for (var i=0; i < chars.length; i++){
                         chars.push(chars.shift());  //rotate the characters
