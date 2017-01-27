@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="" />
+        <meta name="author" content="Ari Hershowitz" />
+        <meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
+        <meta http-equiv="EXPIRES" content="Mon, 22 Jul 2002 11:12:01 GMT">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="static/css/libs/blueimp-gallery.min.css"/>
+        <link rel="stylesheet" href="static/css/app.css"/>
+        <style>
+            body{
+                text-align:center;
+            } 
+            [ng\:cloak], [ng-cloak], .ng-cloak {
+                display: none !important;
+            }
+        </style>
+    </head>
+    <body ng-app="myApp" ng-controller="mainController" ng-cloak>
+        <div class="navbar">
+            <h3>Word Scramble</h3>
+            <h3>Enter your words below and click 'scramble'.</h3>
+        </div>
+        <button ng-click="makeScramble()" class="btn btn-primary">
+            Scramble 
+        </button>
+        <div style="float:left">
+            <table  >
+                <tbody>
+                    <tr>
+                        <th style="padding: 5px"></th>
+                        <th style="padding: 5px;" ng-repeat="item in range(1,10)">
+                            <input type="text"  placeholder="Word {{item}}" ng-model="list.wordlist[item]" autocomplete="off" style="width:100px;" />
+                        </th>
+                    </tr>
+                    <tr ng-repeat="scramble in range(1, list.scrambleslength) ">
+                        <td style="padding: 5px">{{scramble}}.</td>
+                        <td style="padding: 5px;" ng-repeat="item in range(1,10)">
+                            {{list.scrambles[item][scramble] || ''}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="static/js/libs/blueimp-gallery.min.js"></script>
+        <script>
+            var myApp = angular.module('myApp',[]);
+            myApp.controller('mainController', ['$scope', function($scope) {
+                $scope.list = {
+                    'wordlist' : [],
+                    'scrambles' : [],
+                    'scrambleslength' : 100
+                    }
+
+                $scope.numSpaces = function(num){
+                    return 3 - Math.floor(num/10);
+                    }
+                    $scope.makeScramble = function(){
+                        for (var j=1; j < $scope.list.wordlist.length+1; j++){
+                            $scope.list.scrambles[j] = getPermutations($scope.list.wordlist[j]);
+                        }
+                    }
+
+             http://stackoverflow.com/a/39930823/628748
+             $scope.range = function (start, stop, step=1){
+                     if(!stop){stop=start;start=0;}
+                         return Array.from(new Array(parseInt((stop-start)/step)), (x,i) => start+ i*step)
+                     }
+
+            // http://codereview.stackexchange.com/a/97426
+            var getPermutations = function(str){
+                //Enclosed data to be used by the internal recursive function permutate():
+                var permutations = [],  //generated permutations stored here
+                    nextWord = [],      //next word builds up in here     
+                    chars = []          //collection for each recursion level
+                ;
+                //---------------------
+                //split words or numbers into an array of characters
+                if (typeof str === 'string') chars = str.split(''); 
+                else if (typeof str === 'number') {
+                  str = str + ""; //convert number to string
+                  chars = str.split('');//convert string into char array
+                }
+                //============TWO Declaratives========
+                permutate(chars);
+                return permutations;
+                //===========UNDER THE HOOD===========
+                function permutate(chars){ //recursive: generates the permutations
+                    if(chars.length === 0)permutations.push(nextWord.join(''));            
+                    for (var i=0; i < chars.length; i++){
+                        chars.push(chars.shift());  //rotate the characters
+                        nextWord.push(chars[0]);    //use the first char in the array            
+                        permutate(chars.slice(1));  //Recurse: array-less-one-char
+                        nextWord.pop();             //clear for nextWord (multiple pops)
+                    }
+                }
+                }
+
+            }]);
+        </script>
+        <script>
+            $(function(){
+            });
+        </script>
+    </body>
+</html>
