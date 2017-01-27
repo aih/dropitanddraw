@@ -23,7 +23,8 @@
     <body ng-app="myApp" ng-controller="mainController" ng-cloak>
         <div class="navbar">
             <h3>Word Scramble</h3>
-            <h3>Enter your words below and click 'scramble'. (Up to 10 letters each)</h3>
+            <h3>Enter your words below and click 'scramble'. (Up to {{list.MAXCHARS}} letters each)</h3>
+            <h4 ng-if="list.isLoading">Scrambling...</h4>
         </div>
         <button ng-click="makeScramble()" class="btn btn-primary">
             Scramble 
@@ -33,13 +34,13 @@
                 <tbody>
                     <tr>
                         <th style="padding: 5px"></th>
-                        <th style="padding: 5px;" ng-repeat="item in range(1,8)">
-                            <input type="text"  placeholder="Word {{item}}" ng-model="list.wordlist[item]" autocomplete="off" style="width:100px;" maxlength="10" />
+                        <th style="padding: 5px;" ng-repeat="item in range(1,list.wordlistlength) track by item">
+                            <input type="text"  placeholder="Word {{item}}" ng-model="list.wordlist[item]" autocomplete="off" style="width:100px;" maxlength="{{list.MAXCHARS}}" />&#160;<span ng-if="list.scrambles[item] && list.scrambles[item].length>0">({{list.scrambles[item].length}})</span>
                         </th>
                     </tr>
-                    <tr ng-repeat="scramble in range(list.scrambleslength) ">
-                        <td style="padding: 5px">{{scramble + 1}}.</td>
-                        <td style="padding: 5px;" ng-repeat="item in range(1,8)">
+                    <tr ng-repeat="scramble in list.scramblesarray track by $index" ng-if="list.scrambles && list.scrambles.length >0;">
+                        <td style="padding: 5px">{{scramble}}.</td>
+                        <td style="padding: 5px;" ng-repeat="item in range(1,list.wordlistlength) track by item" ng-if="list.scrambles[item] && list.scrambles[item][scramble]">
                             {{list.scrambles[item][scramble] || ''}}
                         </td>
                     </tr>
@@ -49,67 +50,146 @@
         <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
         <script src="static/js/libs/blueimp-gallery.min.js"></script>
         <script>
             var myApp = angular.module('myApp',[]);
-            myApp.controller('mainController', ['$scope', function($scope) {
-                $scope.list = {
-                    'wordlist' : [],
-                    'scrambles' : [],
-                    'scrambleslength' : 100
-                    }
+            myApp.controller('mainController', ['$scope', '$timeout', function($scope, $timeout) {
+            $scope.list = {
+                  'MAXCHARS': 10,
+                  'MAXLENGTH': 5000,
+                  'wordlistlength': 8,
+                  'wordlist' : [],
+                  'scrambles' : [],
+                  'scramblesarray': []
+                  }
 
-                $scope.numSpaces = function(num){
-                    return 3 - Math.floor(num/10);
+             $scope.makeScramble = function(){
+               $scope.list.isLoading = true;
+               $timeout(function(){
+                   for (var j=1; j < $scope.list.wordlist.length+1; j++){
+                   if($scope.list.wordlist[j] && $scope.list.wordlist[j].length>0){
+                       $scope.list.scrambles[j] = shuffle(getPermutations($scope.list.wordlist[j]));
+                   }
+                       };
+                  var getscramblesarray = function(){
+                    var total = _.maxBy($scope.list.scrambles, function(a){return a?a.length:0;});
+                    var maxlen = _.min([total.length, $scope.list.MAXLENGTH]);
+                    if(maxlen === 0){return [];}else{
+                        return $scope.range(1, maxlen);
                     }
-                    $scope.makeScramble = function(){
-                        for (var j=1; j < $scope.list.wordlist.length+1; j++){
-                            $scope.list.scrambles[j] = getPermutations($scope.list.wordlist[j]);
-                        }
-                    }
+                  }
+                  $scope.list.scramblesarray = getscramblesarray();
+                  $scope.list.isLoading = false;
+                       }, 100)
+             }
 
              http://stackoverflow.com/a/39930823/628748
              $scope.range = function (start, stop, step=1){
                      if(!stop){stop=start;start=0;}
                          return Array.from(new Array(parseInt((stop-start)/step)), (x,i) => start+ i*step)
                      }
+             
+            var getPermutations = permute.all;
 
-            // http://codereview.stackexchange.com/a/97426
-            var MAXLENGTH = $scope.list.scrambleslength;
-            var getPermutations = function(str){
-                //Enclosed data to be used by the internal recursive function permutate():
-                var permutations = [],  //generated permutations stored here
-                    nextWord = [],      //next word builds up in here     
-                    chars = []          //collection for each recursion level
-                ;
-                //---------------------
-                //split words or numbers into an array of characters
-                if (typeof str === 'string') chars = str.split(''); 
-                else if (typeof str === 'number') {
-                  str = str + ""; //convert number to string
-                  chars = str.split('');//convert string into char array
-                }
-                //============TWO Declaratives========
-                permutate(chars);
-                return permutations;
-                //===========UNDER THE HOOD===========
-                function permutate(chars){ //recursive: generates the permutations
-                    if(permutations.length >= MAXLENGTH){ return permutations;}
-                    if(chars.length === 0)permutations.push(nextWord.join(''));            
-                    for (var i=0; i < chars.length; i++){
-                        chars.push(chars.shift());  //rotate the characters
-                        nextWord.push(chars[0]);    //use the first char in the array            
-                        permutate(chars.slice(1));  //Recurse: array-less-one-char
-                        nextWord.pop();             //clear for nextWord (multiple pops)
-                    }
-                }
-                }
+            http://stackoverflow.com/a/36721499/628748 
+            function shuffle(array) {
+              var rand, index = -1,
+                length = array.length,
+                result = Array(length);
+              while (++index < length) {
+                rand = Math.floor(Math.random() * (index + 1));
+                result[index] = result[rand];
+                result[rand] = array[index];
+              }
+              return result;
+            }
 
             }]);
         </script>
         <script>
             $(function(){
             });
+            //https://raw.githubusercontent.com/nodash/steinhaus-johnson-trotter/master/index.js
+            function permute(arr) {
+            
+                var N = arr.length;
+                var directions = [];
+                var indices = [];
+        
+                directions.push(0);
+                indices.push(0);
+                for (var i = 1; i < N; i += 1) {
+                    directions.push(-1);
+                    indices.push(i);
+                }
+                
+                function swap(i, j) {
+                    var tmp = indices[i];
+                    indices[i] = indices[j];
+                    indices[j] = tmp;
+        
+                    tmp = directions[i];
+                    directions[i] = directions[j];
+                    directions[j] = tmp;
+                }
+        
+                function result() {
+                    var res = [];
+                    for (var i = 0; i < N; i += 1) {
+                        res.push(arr[indices[i]]);
+                    }
+                    return res;
+                }
+        
+            var makeResult = typeof arr !== 'string' ? result : function () {
+                return result().join('');
+            };
+        
+            return function () {
+                var i, maxIndex, moveTo;
+                for (i = 0; i < N; i += 1) {
+                    if (directions[i] !== 0) {
+                        maxIndex = i;
+                        break;
+                    }
+                }
+                if (maxIndex === undefined) {
+                    return undefined;
+                }
+                for (i = maxIndex + 1; i < N; i += 1) {
+                    if (directions[i] !== 0 && indices[i] > indices[maxIndex]) {
+                        maxIndex = i;
+                    }
+                }
+                moveTo = maxIndex + directions[maxIndex];
+                swap(maxIndex, moveTo);
+                if (moveTo === 0 || moveTo === N - 1 || indices[moveTo + directions[moveTo]] > indices[moveTo]) {
+                    directions[moveTo] = 0;
+                }
+                for (i = 0; i < N; i += 1) {
+                    if (indices[i] > indices[moveTo]) {
+                        if (i < moveTo) {
+                            directions[i] = 1;
+                        } else {
+                            directions[i] = -1;
+                        }
+                    }
+                }
+                return makeResult();
+            };
+        };
+
+        permute.all = function (arr) {
+            var generator = permute(arr);
+            var next = arr;
+            var result = [];
+            while (next !== undefined) {
+                result.push(next);
+                next = generator();
+            }
+            return result;
+        };
         </script>
     </body>
 </html>
