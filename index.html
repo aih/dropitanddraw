@@ -1,134 +1,124 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="description" content="" />
-        <meta name="author" content="Ari Hershowitz" />
-        <meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
-        <meta http-equiv="EXPIRES" content="Mon, 22 Jul 2002 11:12:01 GMT">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="" />
+    <meta name="author" content="Ari Hershowitz" />
+    <meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
+    <meta http-equiv="EXPIRES" content="Mon, 22 Jul 2002 11:12:01 GMT">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-        <link rel="stylesheet" href="static/css/libs/blueimp-gallery.min.css"/>
-        <link rel="stylesheet" href="static/css/app.css"/>
-        <style>
-            body{
-                text-align:center;
-            } 
-            [ng\:cloak], [ng-cloak], .ng-cloak {
-                display: none !important;
-            }
-        </style>
-    </head>
-    <body ng-app="myApp" ng-controller="mainController" ng-cloak>
-        <div class="navbar">
-            <h1>Drop it and Draw</h1>
-            <h2>A website by Liel, Avia, Ella and Yvonne</h2>
-            <div class="navbar-right pull-right">
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Create&#160;Your&#160Page <span class="sr-only">(current)</span></a></li>
-                        <li><a href="#">Sign in</a></li>
-                    </ul>
-                </div>
+    <link rel="stylesheet" href="static/css/libs/blueimp-gallery.min.css" />
+    <link rel="stylesheet" href="static/css/app.css" />
+    <style>
+        body {
+            text-align: center;
+        }
+
+        [ng\:cloak],
+        [ng-cloak],
+        .ng-cloak {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body ng-app="myApp" ng-controller="mainController" ng-cloak>
+    <div class="navbar">
+        <h1>Drop it and Draw</h1>
+        <h2>A website by Liel, Avia and Ella</h2>
+        <div class="navbar-right pull-right">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Create&#160;Your&#160Page <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li><a href="#">Sign in</a></li>
+                </ul>
             </div>
         </div>
-        <div class="search-artists">
-            <div class="search-bar input-group clearfix">
-                <input type="text"  class="form-control" placeholder="Young Artist Name" autocomplete="off">
-                <span class="search-button btn btn-primary input-group-addon clearfix">
-                    Search 
-                </span>
-            </div>
+    </div>
+    <div class="search-artists">
+        <div class="search-bar input-group clearfix">
+            <input type="text" class="form-control" placeholder="Young Artist Name" autocomplete="off">
+            <span class="search-button btn btn-primary input-group-addon clearfix">
+                Search
+            </span>
         </div>
-        <!-- The Gallery as inline carousel, can be positioned anywhere on the page -->
-        <div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-carousel">
-            <div class="slides"></div>
-            <h3 class="title"></h3>
-            <a class="prev">‹</a>
-            <a class="next">›</a>
-            <a class="play-pause"></a>
-            <ol class="indicator"></ol>
-        </div>
-        <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <script src="static/js/libs/blueimp-gallery.min.js"></script>
-        <script>
-            var myApp = angular.module('myApp',[]);
-            myApp.controller('mainController', ['$scope', function($scope) {
-            }]);
-        </script>
-        <script>
-            $(function(){
+    </div>
+    <!-- The Gallery as inline carousel, can be positioned anywhere on the page -->
+    <div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-carousel">
+        <div class="slides"></div>
+        <h3 class="title"></h3>
+        <a class="prev">‹</a>
+        <a class="next">›</a>
+        <a class="play-pause"></a>
+        <ol class="indicator"></ol>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
+    </script>
+    <script src="static/js/libs/blueimp-gallery.min.js"></script>
+    <script>
+        var myApp = angular.module('myApp', []);
+        myApp.controller('mainController', ['$scope', function ($scope) {}]);
+    </script>
+    <script>
+        $(function () {
             var options = {
-            container: '#blueimp-gallery-carousel',
-            carousel: true,
-            enableKeyboardNavigation: true
+                container: '#blueimp-gallery-carousel',
+                carousel: true,
+                enableKeyboardNavigation: true
             };
-            var gallery = blueimp.Gallery([
-            {
-            title: 'Balloons',
-            href: 'static/img/balloons_med.jpg',
-            type: 'image/jpeg',
-            thumbnail: 'static/img/thumbnails/balloons_sm.jpg'
-            },
-            {
-            title: 'Hands',
-            href: 'static/img/hands_med.jpg',
-            type: 'image/jpeg',
-            thumbnail: 'static/img/thumbnails/hands_sm.jpg'
-            },
-            {
-            title: 'Seal',
-            href: 'static/img/seal_med.jpg',
-            type: 'image/jpeg',
-            thumbnail: 'static/img/thumbnails/seal_sm.jpg'
-            },
-            {
-            title: 'Halloween-1',
-            href: 'static/img/halloween1_med.jpg',
-            type: 'image/jpeg',
-            thumbnail: 'static/img/thumbnails/halloween1_sm.jpg'
-            },
-            {
-            title: 'Halloween-2',
-            href: 'static/img/halloween2_med.jpg',
-            type: 'image/jpeg',
-            thumbnail: 'static/img/thumbnails/halloween2_sm.jpg'
-            },
-            {
-            title: 'YStory-1',
-            href: 'static/img/YStory/Y1.jpg',
-            type: 'image/jpeg',
-            thumbnail: 'static/img/thumbnails/Y1_sm.jpg'
-            },
-            {
-            title: 'YStory-2',
-            href: 'static/img/YStory/Y2.jpg',
-            type: 'image/jpeg',
-            thumbnail: 'static/img/thumbnails/Y2_sm.jpg'
-            },
-            {
-            title: 'YStory-3',
-            href: 'static/img/YStory/Y3.jpg',
-            type: 'image/jpeg',
-            thumbnail: 'static/img/thumbnails/Y3_sm.jpg'
-            },
-            {
-            title: 'YStory-4',
-            href: 'static/img/YStory/Y4.jpg',
-            type: 'image/jpeg',
-            thumbnail: 'static/img/thumbnails/Y4_sm.jpg'
-            },
-            {
-            title: 'YStory-5',
-            href: 'static/img/YStory/Y5.jpg',
-            type: 'image/jpeg',
-            thumbnail: 'static/img/thumbnails/Y5_sm.jpg'
-            }
-            ], options );
-            });
-        </script>
-    </body>
+            var gallery = blueimp.Gallery([{
+                    title: 'Balloons',
+                    href: 'static/img/balloons_med.jpg',
+                    type: 'image/jpeg',
+                    thumbnail: 'static/img/thumbnails/balloons_sm.jpg'
+                },
+                {
+                    title: 'Hands',
+                    href: 'static/img/hands_med.jpg',
+                    type: 'image/jpeg',
+                    thumbnail: 'static/img/thumbnails/hands_sm.jpg'
+                },
+                {
+                    title: 'Seal',
+                    href: 'static/img/seal_med.jpg',
+                    type: 'image/jpeg',
+                    thumbnail: 'static/img/thumbnails/seal_sm.jpg'
+                },
+                {
+                    title: 'Halloween-1',
+                    href: 'static/img/halloween1_med.jpg',
+                    type: 'image/jpeg',
+                    thumbnail: 'static/img/thumbnails/halloween1_sm.jpg'
+                },
+                {
+                    title: "Rainbow bubbles",
+                    href: 'static/img/rainbow_bubbles_med.jpg',
+                    type: 'image/jpeg',
+                    thumbnail: 'static/img/thumbnails/rainbow_bubbles_sm.jpg'
+                },
+                {
+                    title: "Planets",
+                    href: 'static/img/planets_med.jpg',
+                    type: 'image/jpeg',
+                    thumbnail: 'static/img/thumbnails/planets_sm.jpg'
+                },
+                {
+                    title: 'Halloween-2',
+                    href: 'static/img/halloween2_med.jpg',
+                    type: 'image/jpeg',
+                    thumbnail: 'static/img/thumbnails/halloween2_sm.jpg'
+                }
+            ], options);
+        });
+    </script>
+</body>
+
 </html>

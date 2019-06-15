@@ -1,3 +1,5 @@
+.DS_Store
+
 #Bower components
 static/bower_components
 
